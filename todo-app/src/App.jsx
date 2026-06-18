@@ -1,11 +1,43 @@
+import { useState } from 'react';
+
+
 export default function App() {
-  const tasks = [] ;
+  const [tasks, setTasks] = useState([]);
+  const [draft, setDraft] = useState('');
+
+
+  const addTask = () => {
+    const text = draft.trim();
+    if (!text) return;
+
+    setTasks((prev) => [...prev, { id: Date.now(), text, done: false }]);
+    setDraft('');
+  };
+
+
 
   return (
     <div className="max-w-sm mx-auto bg-white rounded-xl shadow-md p-6">
       <h1 className="text-xl font-semibold text-gray-800 mb-4">
         Today's list
       </h1>
+
+      <div className="flex gap-2 mb-4">
+        <input
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && addTask()}
+          placeholder="Add a task..."
+          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <button
+          onClick={addTask}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600"
+        >
+          Add
+        </button>
+      </div>
+      
 
       <ul className="space-y-3">
         {tasks.map((task) => (
