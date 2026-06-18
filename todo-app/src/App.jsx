@@ -14,6 +14,18 @@ export default function App() {
     setDraft('');
   };
 
+  const toggleTask = (id) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  };
+
+
+   const deleteTask = (id) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  };
 
 
   return (
@@ -37,23 +49,29 @@ export default function App() {
           Add
         </button>
       </div>
-      
 
       <ul className="space-y-3">
         {tasks.map((task) => (
           <li key={task.id} className="flex items-center gap-3">
-            <span
+            <button
+              onClick={() => toggleTask(task.id)}
               className={`w-4 h-4 rounded-full border-2 ${
                 task.done ? 'bg-green-500 border-green-500' : 'border-gray-300'
               }`}
             />
             <span
-              className={`text-gray-700 ${
+              className={`flex-1 text-gray-700 ${
                 task.done ? 'line-through text-gray-400' : ''
               }`}
             >
               {task.text}
             </span>
+            <button
+              onClick={() => deleteTask(task.id)}
+              className="text-gray-400 hover:text-red-500 text-sm"
+            >
+              ✕
+            </button>
           </li>
         ))}
       </ul>
