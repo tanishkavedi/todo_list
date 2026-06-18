@@ -28,7 +28,14 @@ export default function App() {
   };
 
 
-  return (
+  const clearCompleted = () => {
+    setTasks((prev) => prev.filter((task) => !task.done));
+  };
+
+  const remaining = tasks.filter((task) => !task.done).length;
+
+
+   return (
     <div className="max-w-sm mx-auto bg-white rounded-xl shadow-md p-6">
       <h1 className="text-xl font-semibold text-gray-800 mb-4">
         Today's list
@@ -75,6 +82,18 @@ export default function App() {
           </li>
         ))}
       </ul>
+
+      {tasks.length > 0 && (
+        <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-200 text-sm text-gray-500">
+          <span>{remaining} left</span>
+          <button
+            onClick={clearCompleted}
+            className="hover:text-red-500 underline"
+          >
+            Clear completed
+          </button>
+        </div>
+      )}
     </div>
   );
 }
